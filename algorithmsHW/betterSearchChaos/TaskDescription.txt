@@ -1,0 +1,5 @@
+I had an idea to store a needle and its index in a struct (Query) and then to sort them 
+so when I do the binary search my leftIndex won't start from zero.
+However my solution couldn't pass the tests (could not find the mistake that led to it)
+so I made a similar binary search to the given one and put the "better" decision in brackets
+

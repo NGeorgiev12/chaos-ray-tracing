@@ -1,2 +1,2 @@
 # chaos-ray-tracing
-solved tasks at the chaos bootcamp
+solved tasks during the chaos bootcamp

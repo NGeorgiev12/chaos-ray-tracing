@@ -54,8 +54,8 @@ void constructTriangle(const Grid& grid, const CRTriangle& triangle) {
                 continue;
             }
 
-            float distanceToPlane = -dotNormalToVertex0;
-            float projection = std::abs(dotNormalCameraRay);
+            float distanceToPlane = dotNormalToVertex0;
+            float projection = dotNormalCameraRay;
 
             float t = distanceToPlane / projection;
             CRTVector intersectionPoint = t * cameraRay;
@@ -90,7 +90,7 @@ void renderTriangleToPPM(std::ofstream& ppmFs, const Grid& grid, const CRTriangl
                 continue;
             }
 
-            float t = -dotNormalToVertex0 / dotNormalCameraRay;
+            float t = dotNormalToVertex0 / dotNormalCameraRay;
             CRTVector intersectionPoint = t * cameraRay;
 
             if (isPointInsideTriangle(intersectionPoint, triangle)) {
@@ -209,8 +209,8 @@ void construct3DShape(const Grid& grid, const std::vector<CRTriangle>& triangles
                     continue;
                 }
 
-                float distanceToPlane = -dotNormalToVertex0;
-                float projection = std::abs(dotNormalCameraRay);
+                float distanceToPlane = dotNormalToVertex0;
+                float projection = dotNormalCameraRay;
 
                 float t = distanceToPlane / projection;
                 CRTVector intersectionPoint = t * cameraRay;
@@ -274,11 +274,11 @@ void task4(const Grid& grid) {
 
     std::vector<CRTriangle> triangles;
 
-    CRTVector top(0.0f, 1.0f, -4.0f);
+    CRTVector top(0.3f, 0.3f, -4.0f);
     CRTVector base1(-1.0f, -1.0f, -5.0f);
     CRTVector base2(1.0f, -1.0f, -5.0f);
-    CRTVector base3(1.0f, -1.0f, -6.0f);
-    CRTVector base4(-1.0f, -1.0f, -6.0f);
+    CRTVector base3(1.0f, 1.0f, -5.0f);
+    CRTVector base4(-1.0f, 1.0f, -5.0f);
 
     triangles.emplace_back(CRTriangle(top, base1, base2));
     triangles.emplace_back(CRTriangle(top, base2, base3));

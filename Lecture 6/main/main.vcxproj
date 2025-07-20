@@ -123,15 +123,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CRTCamera.cpp" />
+    <ClCompile Include="CRTColor.cpp" />
     <ClCompile Include="CRTMatrix.cpp" />
     <ClCompile Include="CRTRay.cpp" />
+    <ClCompile Include="CRTRenderer.cpp" />
+    <ClCompile Include="CRTriangle.cpp" />
     <ClCompile Include="CRTVector.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CRTCamera.h" />
+    <ClInclude Include="CRTColor.h" />
     <ClInclude Include="CRTMatrix.h" />
     <ClInclude Include="CRTRay.h" />
+    <ClInclude Include="CRTRenderer.h" />
+    <ClInclude Include="CRTriangle.h" />
     <ClInclude Include="CRTVector.h" />
     <ClInclude Include="Helper.h" />
   </ItemGroup>

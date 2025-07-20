@@ -1,4 +1,3 @@
-#include "CRTRay.h"
 #include "CameraRay.h"
 
 CRTVector CameraRay::generateCameraRay(const Grid& grid, int curWidth, int curHeight, float zDir)

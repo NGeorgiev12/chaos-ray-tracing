@@ -24,20 +24,18 @@ CRTVector::CRTVector() : CRTVector(0, 0, 0)
 
 CRTVector::CRTVector(const Point& vertex) : vertex(vertex)
 {
-	calculateLength();
 }
 
 CRTVector::CRTVector(float x, float y, float z) : vertex{x, y, z}
 {
-	calculateLength();
 }
 
 void CRTVector::normalize()
 {
+	float length = getLength();
 	vertex.x /= length;
 	vertex.y /= length;
 	vertex.z /= length;
-	length = 1;
 }
 
 const Point& CRTVector::getVertex() const
@@ -45,15 +43,34 @@ const Point& CRTVector::getVertex() const
 	return vertex;
 }
 
-float CRTVector::getLength() const
+CRTVector& CRTVector::operator+=(const CRTVector& other)
 {
-	return length;
+	vertex.x += other.getVertex().x;
+	vertex.y += other.getVertex().y;
+	vertex.z += other.getVertex().z;
+	return *this;
 }
 
-void CRTVector::calculateLength()
+CRTVector& CRTVector::operator-=(const CRTVector& other)
+{
+	vertex.x -= other.getVertex().x;
+	vertex.y -= other.getVertex().y;
+	vertex.z -= other.getVertex().z;
+	return *this;
+}
+
+CRTVector& CRTVector::operator*=(float scalar) 
+{
+	vertex.x *= scalar;
+	vertex.y *= scalar;
+	vertex.z *= scalar;
+	return *this;
+}
+
+float CRTVector::getLength() const
 {
 	float vertexSquare = vertex.x * vertex.x + vertex.y * vertex.y + vertex.z * vertex.z;
-	length = sqrt(vertexSquare);
+	return sqrt(vertexSquare);
 }
 
 CRTVector crossProduct(const CRTVector& lhs, const CRTVector& rhs)
@@ -87,26 +104,23 @@ std::ostream& operator<<(std::ostream& os, const CRTVector& vec)
 
 CRTVector operator+(const CRTVector& lhs, const CRTVector& rhs)
 {
-	float newX = lhs.getVertex().x + rhs.getVertex().x;
-	float newY = lhs.getVertex().y + rhs.getVertex().y;
-	float newZ = lhs.getVertex().z + rhs.getVertex().z;
-	return CRTVector(newX, newY, newZ);
+	CRTVector result(lhs);
+	result += rhs;
+	return result;
 }
 
 CRTVector operator-(const CRTVector& lhs, const CRTVector& rhs)
 {
-	float newX = lhs.getVertex().x - rhs.getVertex().x;
-	float newY = lhs.getVertex().y - rhs.getVertex().y;
-	float newZ = lhs.getVertex().z - rhs.getVertex().z;
-	return CRTVector(newX, newY, newZ);
+	CRTVector result(lhs);
+	result -= rhs;
+	return result;
 }
 
 CRTVector operator*(float scalar, const CRTVector& vec)
 {
-	float newX = vec.getVertex().x * scalar;
-	float newY = vec.getVertex().y * scalar;
-	float newZ = vec.getVertex().z * scalar;
-	return CRTVector(newX, newY, newZ);
+	CRTVector result(vec);
+	result *= scalar;
+	return result;
 }
 
 CRTVector operator*(const CRTVector& vec, float scalar)

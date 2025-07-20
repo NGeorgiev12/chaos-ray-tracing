@@ -19,6 +19,10 @@ public:
 	
 	void print() const;
 	static std::vector<std::vector<float>> createSubmatrix(const CRTMatrix& mtx, int excludeRow, int excludeCol);
+	static CRTMatrix rotationX(float radians);
+	static CRTMatrix rotationY(float radians);
+	static CRTMatrix rotationZ(float radians);
+	static CRTMatrix identity();
 
 private:
 	std::vector<std::vector<float>> numbers;

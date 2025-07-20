@@ -25,6 +25,49 @@ static std::vector<std::vector<float>> multiplyMatrices(const std::vector<std::v
 	return result;
 }
 
+CRTMatrix CRTMatrix::rotationX(float radians) {
+	float cosA = cosf(radians);
+	float sinA = sinf(radians);
+
+	return CRTMatrix({
+		{1.0f,  0.0f,   0.0f}, 
+		{0.0f,  cosA,  -sinA},  
+		{0.0f,  sinA,   cosA}   
+		});
+}
+
+CRTMatrix CRTMatrix::rotationY(float radians) {
+	float cosA = cosf(radians);
+	float sinA = sinf(radians);
+
+	return CRTMatrix({
+		{cosA,  0.0f,  sinA},  
+		{0.0f,  1.0f,  0.0f}, 
+		{-sinA, 0.0f,  cosA}  
+		});
+}
+
+CRTMatrix CRTMatrix::rotationZ(float radians) {
+	float cosA = cosf(radians);
+	float sinA = sinf(radians);
+
+	return CRTMatrix({
+		{cosA,  -sinA,  0.0f},
+		{sinA,   cosA,  0.0f},
+		{0.0f,   0.0f,  1.0f}
+		});
+}
+
+CRTMatrix CRTMatrix::identity()
+{
+	std::vector<std::vector<float>> identityData {
+		{1.0f, 0.0f, 0.0f},
+		{0.0f, 1.0f, 0.0f},
+		{0.0f, 0.0f, 1.0f}
+	};
+	return CRTMatrix(identityData);
+}
+
 CRTMatrix::CRTMatrix() : numbers(ROWS_COUNT, std::vector<float>(COLS_COUNT, 0.0f))
 {
 }

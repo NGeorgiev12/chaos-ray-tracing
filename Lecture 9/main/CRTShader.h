@@ -7,6 +7,6 @@ class CRTShader
 {
 public:
 
-	static CRTColor shade(const CRTIntersectionResult& result, const CRTScene& scene);
+	static CRTVector shade(const CRTIntersectionResult& result, const CRTScene& scene);
 };
 

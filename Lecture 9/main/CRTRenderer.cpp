@@ -5,12 +5,12 @@ T clamp(T value, T minVal, T maxVal) {
 	return std::max(minVal, std::min(value, maxVal));
 }
 
-static CRTColor multiplyColors(const CRTColor& lhs, const CRTVector& rhs) {
-	CRTVector colorVec(lhs.getRedComponent() * rhs.getVertex().x,
-		lhs.getGreenComponent() * rhs.getVertex().y,
-		lhs.getBlueComponent() * rhs.getVertex().z);
+static CRTVector multiplyColors(const CRTVector& lhs, const CRTVector& rhs) {
+	CRTVector colorVec(lhs.getComponent(RED_COMPONENT) * rhs.getVertex().x,
+		lhs.getComponent(GREEN_COMPONENT) * rhs.getVertex().y,
+		lhs.getComponent(BLUE_COMPONENT) * rhs.getVertex().z);
 
-	return CRTColor(colorVec);
+	return colorVec;
 }
 
 CRTRenderer::CRTRenderer(const std::string& sceneFileName) : scene(sceneFileName)
@@ -27,8 +27,8 @@ void CRTRenderer::renderScene(const std::string& outputFileName)
 	Grid imageResolution = settings.getImageResolution();
 	const CRTVector& backgroundColor = settings.getBackgroundColor();
 
-	imageResolution.imageHeight /= 12;
-	imageResolution.imageWidth /= 12;
+	imageResolution.imageHeight /= 4;
+	imageResolution.imageWidth /= 4;
 	writeHeader(ofs, imageResolution);
 
 	const int totalPixels = imageResolution.imageWidth * imageResolution.imageHeight;
@@ -49,7 +49,7 @@ void CRTRenderer::renderScene(const std::string& outputFileName)
 			Pixel currentPixel{ j, i };
 			CRTColor pixelColor(backgroundColor);
 			CRTRay cameraRay = CRTRay::generateRay(camera, imageResolution, currentPixel);
-			pixelColor = traceRay(cameraRay);
+			pixelColor = CRTColor(traceRay(cameraRay));
 			
 			ofs << pixelColor << "\t";
 		}
@@ -67,24 +67,25 @@ void CRTRenderer::writeHeader(std::ofstream& ofs, const Grid& grid)
 	ofs << CRTColor::maxColorComponent << "\n";
 }
 
-CRTColor CRTRenderer::traceRay(const CRTRay& ray, int depth)
+CRTVector CRTRenderer::traceRay(const CRTRay& ray, int depth)
 {
 	CRTIntersectionResult result = CRTRayTriangle::intersectsRayTriangle(ray, scene);
 	const CRTMaterial& material = scene.getMaterials()[result.materialIndex];
 
 	if (result.hit == false) {
-		return CRTColor(scene.getSettings().getBackgroundColor());
+		return scene.getSettings().getBackgroundColor();
 	}
 
 	switch (material.getType())
 	{
 		case MaterialType::DIFFUSE: 
 		{
-			return handleDiffuse(result);
+			return CRTShader::shade(result, this->scene);
 		}
 		case MaterialType::REFLECTIVE:
 		{
 			return handleReflection(ray, result, depth);
+
 		}
 		default:
 		{
@@ -93,14 +94,9 @@ CRTColor CRTRenderer::traceRay(const CRTRay& ray, int depth)
 	}
 }
 
-CRTColor CRTRenderer::handleDiffuse(const CRTIntersectionResult& result)
+CRTVector CRTRenderer::handleReflection(const CRTRay& ray, CRTIntersectionResult& result, int depth)
 {
-	return CRTShader::shade(result, scene);
-}
-
-CRTColor CRTRenderer::handleReflection(const CRTRay& ray, const CRTIntersectionResult& result, int depth)
-{
-	const CRTColor& backgroundColor = CRTColor(scene.getSettings().getBackgroundColor());
+	const CRTVector& backgroundColor = scene.getSettings().getBackgroundColor();
 	const CRTMaterial& material = scene.getMaterials()[result.materialIndex];
 	const CRTVector& albedo = material.getAlbedo();
 
@@ -111,14 +107,15 @@ CRTColor CRTRenderer::handleReflection(const CRTRay& ray, const CRTIntersectionR
 	CRTRay reflectedRay = CRTReflector::reflectRay(ray, result.hitPoint, result.hitNormal);
 
 	CRTIntersectionResult reflectionResult = CRTRayTriangle::intersectsRayTriangle(reflectedRay, scene);
+	const CRTMaterial& reflectedMaterial = scene.getMaterials()[reflectionResult.materialIndex];
 
 	if (reflectionResult.hit == false) {
 		return multiplyColors(backgroundColor, albedo);
 	}
 
-	if (material.getType() == MaterialType::DIFFUSE) {
+	if (reflectedMaterial.getType() == MaterialType::DIFFUSE) {
 		
-		CRTColor diffuseColor = handleDiffuse(reflectionResult);
+		CRTVector diffuseColor = CRTShader::shade(reflectionResult, this->scene);
 		return multiplyColors(diffuseColor, albedo);
 	}
 

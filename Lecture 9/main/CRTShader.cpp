@@ -1,6 +1,6 @@
 #include "CRTShader.h"
 
-CRTColor CRTShader::shade(const CRTIntersectionResult& result, const CRTScene& scene)
+CRTVector CRTShader::shade(const CRTIntersectionResult& result, const CRTScene& scene)
 {
 	const CRTriangle& triangle = result.triangle;
 	const CRTVector& hitPoint = result.hitPoint;
@@ -35,5 +35,5 @@ CRTColor CRTShader::shade(const CRTIntersectionResult& result, const CRTScene& s
 		finalColorVec += lightContribution;
 	}
 
-	return CRTColor(finalColorVec);
+	return finalColorVec;
 }

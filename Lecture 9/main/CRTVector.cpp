@@ -79,6 +79,24 @@ float CRTVector::getLength() const
 	return sqrt(vertexSquare);
 }
 
+float CRTVector::getComponent(int index) const
+{
+	assert(index >= 0 && index < 3 && "Index must be 0, 1, or 2 for CRTVector components.");
+
+	if (index == 0) 
+	{
+		return vertex.x;
+	}
+	else if (index == 1) 
+	{
+		return vertex.y;
+	}
+	else 
+	{
+		return vertex.z;
+	}
+}
+
 CRTVector crossProduct(const CRTVector& lhs, const CRTVector& rhs)
 {
 	CRTMatrix crossData = createMatrixData(lhs, rhs);

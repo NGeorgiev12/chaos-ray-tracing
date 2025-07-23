@@ -18,6 +18,7 @@ public:
 	void normalize();
 	const Point& getVertex() const;
 	float getLength() const;
+	float getComponent(int index) const;
 
 	friend CRTVector crossProduct(const CRTVector& lhs, const CRTVector& rhs);
 	friend float dotProduct(const CRTVector& lhs, const CRTVector& rhs);

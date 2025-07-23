@@ -75,7 +75,7 @@ bool CRTRayTriangle::isPointInsideTriangle(const CRTVector& p, const CRTriangle&
 	return checkE0 && checkE1 && checkE2;
 }
 
-std::pair<float, float> CRTRayTriangle::computeBarycentricCoordinates(const CRTMesh& mesh, const CRTIntersectionResult& result)
+BarycentricCoordinates CRTRayTriangle::computeBarycentricCoordinates(const CRTMesh& mesh, const CRTIntersectionResult& result)
 {
 	const CRTriangle& triangle = result.triangle;
 	const CRTVector& hitPoint = result.hitPoint;
@@ -90,7 +90,7 @@ std::pair<float, float> CRTRayTriangle::computeBarycentricCoordinates(const CRTM
 	float u = crossProduct(v0ToHit, base2).getLength() / vecArea;
 	float v = crossProduct(base1, v0ToHit).getLength() / vecArea;
 
-	return { u, v };
+	return { u, v, 1.0f - u - v };
 
 }
 
@@ -107,14 +107,16 @@ void CRTRayTriangle::calculateIntersectionData(CRTIntersectionResult& result, co
 	const auto& verticesNormals = mesh.getVerticesNormals();
 	const auto& triangleIndices = result.vertexIndices;
 
-	const CRTVector& v1Normal = verticesNormals[triangleIndices[0]];
-	const CRTVector& v2Normal = verticesNormals[triangleIndices[1]];
-	const CRTVector& v3Normal = verticesNormals[triangleIndices[2]];
+	const CRTVector& v0Normal = verticesNormals[triangleIndices[0]];
+	const CRTVector& v1Normal = verticesNormals[triangleIndices[1]];
+	const CRTVector& v2Normal = verticesNormals[triangleIndices[2]];
 
 	auto barycentricCoords = computeBarycentricCoordinates(mesh, result);
-	float u = barycentricCoords.first;
-	float v = barycentricCoords.second;
 
-	result.hitNormal = v1Normal * u + v2Normal * v + v3Normal * (1.0f - u - v);
+	float u = barycentricCoords.u;
+	float v = barycentricCoords.v;
+	float w = barycentricCoords.w;
+
+	result.hitNormal = v1Normal * u + v2Normal * v + v0Normal *	w;
 }
 

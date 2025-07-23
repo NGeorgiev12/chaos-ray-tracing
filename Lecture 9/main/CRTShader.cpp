@@ -1,7 +1,5 @@
 #include "CRTShader.h"
 
-//const CRTVector ALBEDO(0.0f, 1.0f, 0.0f);
-
 CRTColor CRTShader::shade(const CRTIntersectionResult& result, const CRTScene& scene)
 {
 	const CRTriangle& triangle = result.triangle;

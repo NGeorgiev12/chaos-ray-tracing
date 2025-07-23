@@ -23,7 +23,7 @@ public:
 private:
 
     static bool isPointInsideTriangle(const CRTVector& p, const CRTriangle& triangle);
-	static std::pair<float, float> computeBarycentricCoordinates(const CRTMesh& mesh, 
+	static BarycentricCoordinates computeBarycentricCoordinates(const CRTMesh& mesh,
         const CRTIntersectionResult& result);
     static void calculateIntersectionData(CRTIntersectionResult& result, const CRTMesh& mesh,
          const std::vector<CRTMaterial>& materials);

@@ -49,21 +49,27 @@ int CRTMesh::getTrianglesCount() const
 	return triangleIndices.size();
 }
 
-void CRTMesh::computeVerticesNormals()
-{
-	normals.assign(vertices.size(), CRTVector(0.f, 0.f, 0.f));
+void CRTMesh::computeVerticesNormals() {
 
-	for (const auto& triangleIndices : triangleIndices) {
+    normals.resize(vertices.size(), CRTVector(0.0f, 0.0f, 0.0f));
+    std::vector<int> normalCounts(vertices.size(), 0);
 
-		CRTriangle triangle = createTriangle(triangleIndices, vertices);
-		const CRTVector& normal = triangle.normalVector();
+    for (const auto& triIndices : triangleIndices) {
 
-		for (int index : triangleIndices) {
-			normals[index] += normal;
-		}
-	}
+        CRTriangle tri = createTriangle(triIndices, vertices);
+        CRTVector triNormal = tri.normalVector();
 
-	for (auto& normal : normals) {
-		normal.normalize();
-	}
+        for (int vertexIdx : triIndices) {
+            normals[vertexIdx] += triNormal;
+            normalCounts[vertexIdx]++;
+        }
+    }
+
+    for (size_t i = 0; i < vertices.size(); i++) {
+        
+			float coefficient = 1.0f / normalCounts[i];
+            normals[i] *= coefficient;
+            normals[i].normalize();
+    }
 }
+

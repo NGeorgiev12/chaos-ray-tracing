@@ -4,7 +4,7 @@
 
 namespace Helper  
 {
-	constexpr float SHADOW_BIAS = 1e-4f;
+	constexpr float SHADOW_BIAS = 1e-2f;
 	constexpr float EPSILON = 1e-5f;  
 	constexpr int UNIT_VEC_LENGTH = 1;  
 	constexpr int TRIANGLE_VERTICES = 3;  
@@ -53,7 +53,14 @@ namespace Helper
 	{  
 		int x;  
 		int y;  
-	};  
+	};
+
+	struct BarycentricCoordinates  
+	{  
+		float u;  
+		float v;
+		float w;
+	};
 
 	bool areEqualFloats(float left, float right);  
 	bool operator==(const Point& lhs, const Point& rhs);  

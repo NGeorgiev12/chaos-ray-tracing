@@ -51,5 +51,5 @@ void task6() {
 
 int main()
 {
-	task5();
+	//task5();
 }

@@ -73,6 +73,14 @@ CRTVector CRTVector::loadJSONVector(const Value::ConstArray& arr) {
     return CRTVector(arr[0].GetFloat(), arr[1].GetFloat(), arr[2].GetFloat());
 }
 
+CRTVector CRTVector::multiplyColors(const CRTVector& lhs, const CRTVector& rhs)
+{
+	return CRTVector(lhs.getComponent(RED_COMPONENT) * rhs.getVertex().x,
+		lhs.getComponent(GREEN_COMPONENT) * rhs.getVertex().y,
+		lhs.getComponent(BLUE_COMPONENT) * rhs.getVertex().z);
+
+}
+
 float CRTVector::getLength() const
 {
 	float vertexSquare = vertex.x * vertex.x + vertex.y * vertex.y + vertex.z * vertex.z;

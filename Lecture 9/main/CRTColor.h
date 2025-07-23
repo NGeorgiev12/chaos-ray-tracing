@@ -2,6 +2,8 @@
 #include <fstream>
 #include <random>
 #include "CRTVector.h"
+#include "Helper.h"
+using namespace Helper;
 
 class CRTColor
 {
@@ -10,8 +12,6 @@ class CRTColor
 	int blueComponent = 0;
 	
 public:
-
-	static const int maxColorComponent;
 
 	CRTColor() = default;
 	CRTColor(int red, int green, int blue);
@@ -25,8 +25,6 @@ public:
 	void setRed(int newRed);
 	void setGreen(int newGreen);
 	void setBlue(int newBlue);
-
-	CRTColor& operator+=(const CRTColor& other);
 
 	friend bool operator==(const CRTColor& lhs, const CRTColor& rhs);
 	friend bool operator!=(const CRTColor& lhs, const CRTColor& rhs);

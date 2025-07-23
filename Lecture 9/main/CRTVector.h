@@ -14,6 +14,7 @@ public:
 	CRTVector(const Point& vertex);
 	CRTVector(float x, float y, float z);
 	static CRTVector loadJSONVector(const Value::ConstArray& arr);
+	static CRTVector multiplyColors(const CRTVector& lhs, const CRTVector& rhs);
 
 	void normalize();
 	const Point& getVertex() const;

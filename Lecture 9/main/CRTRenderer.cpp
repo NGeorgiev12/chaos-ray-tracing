@@ -5,14 +5,6 @@ T clamp(T value, T minVal, T maxVal) {
 	return std::max(minVal, std::min(value, maxVal));
 }
 
-static CRTVector multiplyColors(const CRTVector& lhs, const CRTVector& rhs) {
-	CRTVector colorVec(lhs.getComponent(RED_COMPONENT) * rhs.getVertex().x,
-		lhs.getComponent(GREEN_COMPONENT) * rhs.getVertex().y,
-		lhs.getComponent(BLUE_COMPONENT) * rhs.getVertex().z);
-
-	return colorVec;
-}
-
 CRTRenderer::CRTRenderer(const std::string& sceneFileName) : scene(sceneFileName)
 {
 }
@@ -27,8 +19,8 @@ void CRTRenderer::renderScene(const std::string& outputFileName)
 	Grid imageResolution = settings.getImageResolution();
 	const CRTVector& backgroundColor = settings.getBackgroundColor();
 
-	imageResolution.imageHeight /= 4;
-	imageResolution.imageWidth /= 4;
+	imageResolution.imageHeight /= 8;
+	imageResolution.imageWidth /= 8;
 	writeHeader(ofs, imageResolution);
 
 	const int totalPixels = imageResolution.imageWidth * imageResolution.imageHeight;
@@ -64,10 +56,10 @@ void CRTRenderer::writeHeader(std::ofstream& ofs, const Grid& grid)
 {
 	ofs << "P3\n";
 	ofs << grid.imageWidth << " " << grid.imageHeight << "\n";
-	ofs << CRTColor::maxColorComponent << "\n";
+	ofs << MAX_COLOR_COMPONENT << "\n";
 }
 
-CRTVector CRTRenderer::traceRay(const CRTRay& ray, int depth)
+CRTVector CRTRenderer::traceRay(const CRTRay& ray)
 {
 	CRTIntersectionResult result = CRTRayTriangle::intersectsRayTriangle(ray, scene);
 	const CRTMaterial& material = scene.getMaterials()[result.materialIndex];
@@ -84,7 +76,7 @@ CRTVector CRTRenderer::traceRay(const CRTRay& ray, int depth)
 		}
 		case MaterialType::REFLECTIVE:
 		{
-			return handleReflection(ray, result, depth);
+			return CRTReflector::handleReflection(ray, result, this->scene);
 
 		}
 		default:
@@ -92,32 +84,4 @@ CRTVector CRTRenderer::traceRay(const CRTRay& ray, int depth)
 			throw std::runtime_error("Unsupported material type encountered during ray tracing.");
 		}
 	}
-}
-
-CRTVector CRTRenderer::handleReflection(const CRTRay& ray, CRTIntersectionResult& result, int depth)
-{
-	const CRTVector& backgroundColor = scene.getSettings().getBackgroundColor();
-	const CRTMaterial& material = scene.getMaterials()[result.materialIndex];
-	const CRTVector& albedo = material.getAlbedo();
-
-	if (depth >= MAX_RAY_DEPTH) {
-		return multiplyColors(backgroundColor, albedo);
-	}
-
-	CRTRay reflectedRay = CRTReflector::reflectRay(ray, result.hitPoint, result.hitNormal);
-
-	CRTIntersectionResult reflectionResult = CRTRayTriangle::intersectsRayTriangle(reflectedRay, scene);
-	const CRTMaterial& reflectedMaterial = scene.getMaterials()[reflectionResult.materialIndex];
-
-	if (reflectionResult.hit == false) {
-		return multiplyColors(backgroundColor, albedo);
-	}
-
-	if (reflectedMaterial.getType() == MaterialType::DIFFUSE) {
-		
-		CRTVector diffuseColor = CRTShader::shade(reflectionResult, this->scene);
-		return multiplyColors(diffuseColor, albedo);
-	}
-
-	return handleReflection(reflectedRay, reflectionResult, depth + 1);
 }

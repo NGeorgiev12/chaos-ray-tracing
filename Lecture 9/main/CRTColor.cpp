@@ -1,10 +1,8 @@
 #include "CRTColor.h"
 #include <assert.h>
 
-const int CRTColor::maxColorComponent = 255;
 
 static int floatToUint8(float value) {
-    // Clamp value to [0.0f, 1.0f]
     value = std::max(0.0f, std::min(1.0f, value));
     return static_cast<int>(value * 255.0f);
 }
@@ -14,7 +12,7 @@ int CRTColor::generateRandomColorChannel()
     // the number is created using <random> library  
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dist(0, CRTColor::maxColorComponent);
+    std::uniform_int_distribution<> dist(0, MAX_COLOR_COMPONENT);
     return dist(gen);
 }
 
@@ -87,15 +85,6 @@ void CRTColor::setBlue(int newBlue)
 {
     assert(newBlue >= 0 && newBlue <= 255);
     blueComponent = newBlue;
-}
-
-CRTColor& CRTColor::operator+=(const CRTColor& other)
-{
-	redComponent = std::min(redComponent + other.redComponent, maxColorComponent);
-	greenComponent = std::min(greenComponent + other.greenComponent, maxColorComponent);
-	blueComponent = std::min(blueComponent + other.blueComponent, maxColorComponent);
-
-    return *this;
 }
 
 CRTColor CRTColor::generateRandomColor()

@@ -18,16 +18,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="algorithms\CRTRefracter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="algorithms\CRTRayTriangle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="algorithms\CRTReflector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="algorithms\CRTShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="math\CRTColor.cpp">
@@ -72,15 +63,12 @@
     <ClCompile Include="Helper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="algorithms\CRTShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="algorithms\CRTRayTriangle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="algorithms\CRTReflector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="algorithms\CRTShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="math\CRTColor.h">
@@ -125,7 +113,7 @@
     <ClInclude Include="Helper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="algorithms\CRTRefracter.h">
+    <ClInclude Include="algorithms\CRTShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

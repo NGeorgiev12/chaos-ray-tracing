@@ -1,6 +1,6 @@
 #include "CRTRay.h"
 
-CRTRay CRTRay::generateRay(const CRTCamera& camera, const Grid& grid,
+CRTRay CRTRay::generateCameraRay(const CRTCamera& camera, const Grid& grid,
 	const Pixel& currentPixel, float angle)
 {
 	const CRTVector& cameraPosition = camera.getPosition();
@@ -26,17 +26,17 @@ CRTRay CRTRay::generateRay(const CRTCamera& camera, const Grid& grid,
 	rayDirection = rayDirection * rotationMatrix;
 	rayDirection.normalize();
 
-	return CRTRay(cameraPosition, rayDirection);
+	return CRTRay(cameraPosition, rayDirection, RayType::CAMERA, 0);
 }
 
-CRTRay::CRTRay(const CRTVector& cameraOrigin, const CRTVector& rayDirection)
-	: cameraOrigin(cameraOrigin), rayDirection(rayDirection)
+CRTRay::CRTRay(const CRTVector& cameraOrigin, const CRTVector& rayDirection, RayType rayType, int depth)
+	: cameraOrigin(cameraOrigin), rayDirection(rayDirection), rayType(rayType), pathDepth(depth)
 {
 	this->rayDirection.normalize();
 }
 
-CRTRay::CRTRay(CRTVector&& cameraOrigin, CRTVector&& rayDirection)
-	: cameraOrigin(std::move(cameraOrigin)), rayDirection(std::move(rayDirection))
+CRTRay::CRTRay(CRTVector&& cameraOrigin, CRTVector&& rayDirection, RayType rayType, int depth)
+	: cameraOrigin(std::move(cameraOrigin)), rayDirection(std::move(rayDirection)), rayType(rayType), pathDepth(depth)
 {
 	this->rayDirection.normalize();
 }
@@ -49,4 +49,14 @@ const CRTVector& CRTRay::getCameraOrigin() const
 const CRTVector& CRTRay::getRayDirection() const
 {
 	return rayDirection;
+}
+
+RayType CRTRay::getRayType() const
+{
+	return rayType;
+}
+
+int CRTRay::getPathDepth() const
+{
+	return pathDepth;	
 }

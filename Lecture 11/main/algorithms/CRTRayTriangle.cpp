@@ -1,6 +1,6 @@
 #include "CRTRayTriangle.h"
 
-CRTIntersectionResult CRTRayTriangle::intersectsRayTriangle(const CRTRay& ray, const CRTScene& scene)
+CRTIntersectionResult CRTRayTriangle::traceRay(const CRTRay& ray, const CRTScene& scene, float maxT)
 {
 	const CRTVector& rayDir = ray.getRayDirection();
 	const CRTVector& rayOrigin = ray.getCameraOrigin();
@@ -30,13 +30,13 @@ CRTIntersectionResult CRTRayTriangle::intersectsRayTriangle(const CRTRay& ray, c
 
 			float t = distanceToPlane / projection;
 
-			if (t <= 0.f || t >= result.t) {
+			if (t <= 0.f || t > maxT) {
 				continue;
 			}
 
 			CRTVector intersectionPoint = rayOrigin + t * rayDir;
 
-			if (isPointInsideTriangle(intersectionPoint, triangle)) {
+			if (isPointInsideTriangle(intersectionPoint, triangle) && t < result.t) {
 
 				result.t = t;
 				result.hit = true;

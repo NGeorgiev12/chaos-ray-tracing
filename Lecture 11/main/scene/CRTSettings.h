@@ -12,7 +12,9 @@ public:
 	CRTSettings(CRTVector&& backgroundColor, Grid&& imageResolution);  
 
 	const CRTVector& getBackgroundColor() const;  
-	const Grid& getImageResolution() const;  
+	const Grid& getImageResolution() const;
+
+	void print() const;
 private:  
 
 	CRTVector backgroundColor;  

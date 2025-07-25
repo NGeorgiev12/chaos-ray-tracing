@@ -124,8 +124,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="algorithms\CRTRayTriangle.cpp" />
-    <ClCompile Include="algorithms\CRTReflector.cpp" />
-    <ClCompile Include="algorithms\CRTRefracter.cpp" />
     <ClCompile Include="algorithms\CRTShader.cpp" />
     <ClCompile Include="CRTRenderer.cpp" />
     <ClCompile Include="Helper.cpp" />
@@ -145,8 +143,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="algorithms\CRTRayTriangle.h" />
-    <ClInclude Include="algorithms\CRTReflector.h" />
-    <ClInclude Include="algorithms\CRTRefracter.h" />
     <ClInclude Include="algorithms\CRTShader.h" />
     <ClInclude Include="CRTRenderer.h" />
     <ClInclude Include="Helper.h" />

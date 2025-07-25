@@ -18,7 +18,8 @@ class CRTRayTriangle
 {
 public:
 
-    static CRTIntersectionResult intersectsRayTriangle(const CRTRay& ray, const CRTScene& scene);
+    static CRTIntersectionResult traceRay(const CRTRay& ray, const CRTScene& scene,
+        float maxT = std::numeric_limits<float>::infinity());
 
 private:
 

@@ -10,6 +10,7 @@ namespace Helper
 	constexpr int GREEN_COMPONENT = 1;
 	constexpr int BLUE_COMPONENT = 2;
 	constexpr float SHADOW_BIAS = 1e-2f;
+	constexpr float REFLECTION_BIAS = 1e-2f;
 	constexpr float REFRACTION_BIAS = 1e-2f;
 	constexpr float EPSILON = 1e-5f;  
 	constexpr int UNIT_VEC_LENGTH = 1;  

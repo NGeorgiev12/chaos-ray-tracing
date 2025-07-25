@@ -24,3 +24,8 @@ const Grid& CRTSettings::getImageResolution() const
 {
 	return imageResolution;
 }
+
+void CRTSettings::print() const {
+	std::cout << "Background Color: " << backgroundColor << std::endl;
+	std::cout << "Image Resolution: " << imageResolution.imageWidth << "x" << imageResolution.imageHeight << std::endl;
+}

@@ -47,6 +47,7 @@ CRTScene CRTSceneParser::parseScene(const std::string& sceneFileName)
 	jsonDocument.ParseStream(isw);
 
 	scene.setSettings(parseSettings(jsonDocument));
+	
 	scene.setCamera(parseCamera(jsonDocument));
 	scene.setMaterials(parseMaterials(jsonDocument));
 	scene.setLights(parseLights(jsonDocument));

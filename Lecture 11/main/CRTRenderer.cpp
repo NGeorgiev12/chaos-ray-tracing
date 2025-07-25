@@ -19,8 +19,8 @@ void CRTRenderer::renderScene(const std::string& outputFileName)
 	Grid imageResolution = settings.getImageResolution();
 	const CRTVector& backgroundColor = settings.getBackgroundColor();
 
-	imageResolution.imageHeight /= 4;
-	imageResolution.imageWidth /= 4;
+	imageResolution.imageHeight /= 8;
+	imageResolution.imageWidth /= 8;
 	writeHeader(ofs, imageResolution);
 
 	const int totalPixels = imageResolution.imageWidth * imageResolution.imageHeight;
@@ -39,11 +39,15 @@ void CRTRenderer::renderScene(const std::string& outputFileName)
 			}
 
 			Pixel currentPixel{ j, i };
-			CRTColor pixelColor(backgroundColor);
-			CRTRay cameraRay = CRTRay::generateRay(camera, imageResolution, currentPixel);
-			pixelColor = CRTColor(traceRay(cameraRay));
+			CRTColor pixelColorVec = backgroundColor;
+
+			CRTRay cameraRay = CRTRay::generateCameraRay(camera, imageResolution, currentPixel);
+
+			CRTIntersectionResult intersectionResult = traceRay(cameraRay);
+
+			pixelColorVec = CRTShader::shade(cameraRay, intersectionResult, this->scene);
 			
-			ofs << pixelColor << "\t";
+			ofs << CRTColor(pixelColorVec) << "\t";
 		}
 
 		ofs << "\n";
@@ -59,37 +63,17 @@ void CRTRenderer::writeHeader(std::ofstream& ofs, const Grid& grid)
 	ofs << MAX_COLOR_COMPONENT << "\n";
 }
 
-CRTVector CRTRenderer::traceRay(const CRTRay& ray)
+CRTIntersectionResult CRTRenderer::traceRay(const CRTRay& ray, float maxT)
 {
-	CRTIntersectionResult result = CRTRayTriangle::intersectsRayTriangle(ray, this->scene);
-
-	if (result.hit == false) {
+	/*if (depth >= MAX_RAY_DEPTH) {
 		return scene.getSettings().getBackgroundColor();
-	}
+	}*/
 
-	const CRTMaterial& material = scene.getMaterials()[result.materialIndex];
+	CRTIntersectionResult result = CRTRayTriangle::traceRay(ray, this->scene);
 
-	switch (material.getType())
-	{
-		case MaterialType::DIFFUSE: 
-		{
-			return CRTShader::shade(result, this->scene);
-		}
-		case MaterialType::REFLECTIVE:
-		{
-			return CRTReflector::handleReflection(ray, result, this->scene);
-		}
-		case MaterialType::REFRACTIVE:
-		{
-			return CRTRefracter::handleRefraction(ray, result, this->scene);
-		}
-		case MaterialType::CONSTANT:
-		{
-			return material.getAlbedo();
-		}
-		default:
-		{
-			throw std::runtime_error("Unsupported material type encountered during ray tracing.");
-		}
-	}
+	/*if (result.hit == false) {
+		return scene.getSettings().getBackgroundColor();
+	}*/
+
+	return result;
 }

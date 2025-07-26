@@ -20,6 +20,5 @@ private:
 	CRTScene scene;
 
 	void writeHeader(std::ofstream& ofs, const Grid& grid);
-	CRTIntersectionResult traceRay(const CRTRay& ray, float maxT = std::numeric_limits<float>::infinity());
 };
 

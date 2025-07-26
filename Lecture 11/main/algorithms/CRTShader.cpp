@@ -1,4 +1,4 @@
-#include "CRTShader.h"
+﻿#include "CRTShader.h"
 
 CRTVector CRTShader::shade(const CRTRay& ray, const CRTIntersectionResult& result, const CRTScene& scene)
 {
@@ -52,6 +52,7 @@ CRTVector CRTShader::shadeDiffuse(const CRTRay & ray, const CRTIntersectionResul
 
 		CRTVector lightDir = light.getPosition() - hitPoint;
 		float sphereRadius = lightDir.getLength();
+		float maxT = lightDir.getLength() - SHADOW_BIAS;
 		lightDir.normalize();
 
 		float cosineLaw = std::max(0.0f, dotProduct(lightDir, normalVector));
@@ -62,12 +63,17 @@ CRTVector CRTShader::shadeDiffuse(const CRTRay & ray, const CRTIntersectionResul
 
 		CRTRay shadowRay(shadowRayOrigin, lightDir, RayType::SHADOW, ray.getPathDepth() + 1);
 
-		float maxT = lightDir.getLength() - SHADOW_BIAS;
-
 		CRTIntersectionResult shadowResult = CRTRayTriangle::traceRay(shadowRay, scene, maxT);
+		const CRTMaterial& shadowMaterial = scene.getMaterials()[shadowResult.materialIndex];
 
 		if (shadowResult.hit == true) {
-			continue;
+
+			const CRTMaterial& hitMat = scene.getMaterials()[shadowResult.materialIndex];
+
+			if (hitMat.getType() != MaterialType::REFRACTIVE) {
+				continue; 
+			}
+			
 		}
 
 		lightContribution = intensity / sphereArea * albedo * cosineLaw;
@@ -109,6 +115,7 @@ CRTVector CRTShader::shadeRefraction(const CRTRay& ray, const CRTIntersectionRes
 	if (dotRayNormal > 0) {
 		std::swap(ethaIncident, ethaRefractive);
 		normal *= -1.0f;
+		dotRayNormal *= -1.f;
 	}
 
 	float cosAlpha = -dotRayNormal;

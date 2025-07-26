@@ -19,8 +19,8 @@ void CRTRenderer::renderScene(const std::string& outputFileName)
 	Grid imageResolution = settings.getImageResolution();
 	const CRTVector& backgroundColor = settings.getBackgroundColor();
 
-	imageResolution.imageHeight /= 8;
-	imageResolution.imageWidth /= 8;
+	imageResolution.imageHeight /= 4;
+	imageResolution.imageWidth /= 4;
 	writeHeader(ofs, imageResolution);
 
 	const int totalPixels = imageResolution.imageWidth * imageResolution.imageHeight;
@@ -43,7 +43,7 @@ void CRTRenderer::renderScene(const std::string& outputFileName)
 
 			CRTRay cameraRay = CRTRay::generateCameraRay(camera, imageResolution, currentPixel);
 
-			CRTIntersectionResult intersectionResult = traceRay(cameraRay);
+			CRTIntersectionResult intersectionResult = CRTRayTriangle::traceRay(cameraRay, this->scene);
 
 			pixelColorVec = CRTShader::shade(cameraRay, intersectionResult, this->scene);
 			
@@ -61,19 +61,4 @@ void CRTRenderer::writeHeader(std::ofstream& ofs, const Grid& grid)
 	ofs << "P3\n";
 	ofs << grid.imageWidth << " " << grid.imageHeight << "\n";
 	ofs << MAX_COLOR_COMPONENT << "\n";
-}
-
-CRTIntersectionResult CRTRenderer::traceRay(const CRTRay& ray, float maxT)
-{
-	/*if (depth >= MAX_RAY_DEPTH) {
-		return scene.getSettings().getBackgroundColor();
-	}*/
-
-	CRTIntersectionResult result = CRTRayTriangle::traceRay(ray, this->scene);
-
-	/*if (result.hit == false) {
-		return scene.getSettings().getBackgroundColor();
-	}*/
-
-	return result;
 }

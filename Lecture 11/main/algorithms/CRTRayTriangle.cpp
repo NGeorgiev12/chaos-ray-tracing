@@ -46,6 +46,7 @@ CRTIntersectionResult CRTRayTriangle::traceRay(const CRTRay& ray, const CRTScene
 				result.materialIndex = mesh.getMaterialIndex();
 
 				calculateIntersectionData(result, mesh, materials);
+
 			}
 		}
 	}

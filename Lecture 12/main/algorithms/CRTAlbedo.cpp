@@ -43,7 +43,7 @@ CRTVector CRTAlbedo::albedo(const CRTexture& texture, const CRTIntersectionResul
             const BitmapData& data = texture.getBitmapData();
             const BitMapBuffer& buffer = data.buffer;
 
-            unsigned int rowIdx = 1 - yCoord * buffer.getResolution().imageHeight;
+            unsigned int rowIdx = yCoord * buffer.getResolution().imageHeight;
             unsigned int colIdx = xCoord * buffer.getResolution().imageWidth;;
 
             return buffer.loadBitmapVector(rowIdx, colIdx);

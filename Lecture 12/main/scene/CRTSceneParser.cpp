@@ -282,16 +282,16 @@ CRTexture CRTSceneParser::parseTexture(const Value& jsonTexture)
 		CheckerData data = { colorA, colorB, squareSize.GetFloat() };
 		texture.setCheckerData(std::move(data));
 	}
-	/*else if (strcmp(type.GetString(), "bitmap") == 0)
+	else if (strcmp(type.GetString(), "bitmap") == 0)
 	{
 		const Value& filePath = jsonTexture.FindMember(CRT_SCENE_TEXTURE_FILEPATH)->value;
 		assert(!filePath.IsNull() && filePath.IsString());
 
-		std::cout << filePath.GetString() << std::endl;
-		std::string filePathStr(filePath.GetString());
+		std::string filePathSubtr(filePath.GetString());
+		std::string filePathStr = "scene" + filePathSubtr;
 		BitmapData data(std::move(filePathStr));
 		texture.setBitmapData(std::move(data));
-	}*/
+	}
 
 	return texture;
 }

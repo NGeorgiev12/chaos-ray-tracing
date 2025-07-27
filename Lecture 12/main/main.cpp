@@ -31,7 +31,25 @@ void task3() {
     renderer.renderScene(OUTPUT_FILE);
 }
 
+void task4() {
+
+    const char SCENE_FILE[] = "scene/scene3.crtscene";
+    const char OUTPUT_FILE[] = "output3.ppm";
+
+    CRTRenderer renderer(SCENE_FILE);
+    renderer.renderScene(OUTPUT_FILE);
+}
+
+void task5() {
+
+    const char SCENE_FILE[] = "scene/scene4.crtscene";
+    const char OUTPUT_FILE[] = "output5.ppm";
+
+    CRTRenderer renderer(SCENE_FILE);
+    renderer.renderScene(OUTPUT_FILE);
+}
+
 int main()
 {
-    task3();
+    task1();
 }

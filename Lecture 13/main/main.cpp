@@ -6,10 +6,10 @@
 
 void task1() {
 
-    const char SCENE_FILE[] = "scene/scene5.crtscene";
-    const char OUTPUT_FILE[] = "output5.ppm";
+    const char SCENE_FILE[] = "scene/scene0.crtscene";
+    const char OUTPUT_FILE[] = "output1.ppm";
 
-    CRTRenderer renderer(SCENE_FILE, RenderType::REGION, TraceType::AABB);
+    CRTRenderer renderer(SCENE_FILE, RenderType::BUCKETS, TraceType::AABB);
     renderer.renderScene(OUTPUT_FILE);
 }
 int main()

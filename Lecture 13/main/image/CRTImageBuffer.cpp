@@ -22,15 +22,14 @@ const std::vector<CRTColor>& CRTImageBuffer::getPixels() const
 
 const CRTColor& CRTImageBuffer::getPixel(int curWidth, int curHeight) const
 {
-    size_t index = static_cast<size_t>(curWidth) * resolution.imageHeight + curHeight;
+    size_t index = static_cast<size_t>(curHeight) * resolution.imageWidth + curWidth;
     return pixels[index];
 }
 
 void CRTImageBuffer::setPixel(int curWidth, int curHeight, CRTColor&& color)
 {
-    size_t index = static_cast<size_t>(curWidth) * resolution.imageHeight + curHeight;
+    size_t index = static_cast<size_t>(curHeight) * resolution.imageWidth + curWidth;
     pixels[index] = std::move(color);
-
 }
 
 void CRTImageBuffer::save(const std::string& fileName, const Grid& grid) const

@@ -34,7 +34,6 @@ CRTVector CRTShader::shade(const CRTRay& ray, const CRTIntersectionResult& resul
 			throw std::runtime_error("Unsupported material type encountered during ray tracing.");
 		}
 	}
-
 }
 
 CRTVector CRTShader::shadeDiffuse(const CRTRay & ray, const CRTIntersectionResult & result,

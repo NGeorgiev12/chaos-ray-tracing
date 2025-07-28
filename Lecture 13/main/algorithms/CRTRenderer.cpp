@@ -109,7 +109,7 @@ CRTImageBuffer CRTRenderer::renderBuckets(const std::string& outputFileName, con
 	{
 		int endY = std::min(i + bucketSize, grid.imageHeight);
 
-		for (int j = 0; j < grid.imageWidth; j++)
+		for (int j = 0; j < grid.imageWidth; j += bucketSize)
 		{
 			int endX = std::min(j + bucketSize, grid.imageWidth);
 			Interval currentBucket({ j, i }, { endX, endY });
@@ -137,6 +137,7 @@ CRTImageBuffer CRTRenderer::renderBuckets(const std::string& outputFileName, con
 				bucket = workQueue.front();
 				workQueue.pop();
 			}
+
 			renderRegion(buffer, bucket, grid);
 		}
 	};
@@ -152,6 +153,8 @@ CRTImageBuffer CRTRenderer::renderBuckets(const std::string& outputFileName, con
 	{
 		t.join();
 	}
+
+	return buffer;
 }
 
 void CRTRenderer::renderScene(const std::string& outputFileName)

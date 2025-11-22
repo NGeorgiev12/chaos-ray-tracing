@@ -163,8 +163,8 @@ void CRTRenderer::renderScene(const std::string& outputFileName)
 	const CRTCamera& camera = scene.getCamera();
 	Grid imageResolution = settings.getImageResolution();
 
-	imageResolution.imageWidth /= 2;
-	imageResolution.imageHeight /= 2;
+	imageResolution.imageWidth /= 12;
+	imageResolution.imageHeight /= 12;
 	CRTImageBuffer buffer(imageResolution);
 
 	std::cout << "Started rendering" << std::endl;

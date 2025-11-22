@@ -16,10 +16,10 @@ void task1() {
 void task2() {
 
     const char SCENE_FILE[] = "scene/scene1.crtscene";
-    const char OUTPUT_FILE[] = "output1.ppm";
+    const char OUTPUT_FILE[] = "output";
 
     CRTRenderer renderer(SCENE_FILE, RenderType::BUCKETS, TraceType::KD);
-    renderer.renderScene(OUTPUT_FILE);
+    renderer.renderAnimation(OUTPUT_FILE);
 }
 
 int main()

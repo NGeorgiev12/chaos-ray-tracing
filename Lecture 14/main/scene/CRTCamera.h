@@ -26,6 +26,7 @@ public:
 	void executeMovementSequence(const std::vector<std::pair<CameraMovement, float>>& movements,
 		const std::vector<std::pair<CameraRotation, float>>& rotations);
 
+	void rotateAround(float degrees, const CRTVector& target, CameraRotation rotationType);
 	const CRTVector& getPosition() const;
 	const CRTMatrix& getRotationMatrix() const;
 

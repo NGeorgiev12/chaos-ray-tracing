@@ -25,7 +25,7 @@ public:
 	CRTRenderer(const std::string& sceneFileName, RenderType renderType, TraceType traceType);
 
 	void renderScene(const std::string& outputFileName);
-	//void renderAnimation(const std::string& outputFileName);
+	void renderAnimation(const std::string& outputFileName);
 
 private:
 

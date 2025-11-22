@@ -195,3 +195,23 @@ void CRTRenderer::renderScene(const std::string& outputFileName)
 	std::cout << "Finished rendering" << std::endl;
 	buffer.save(outputFileName, imageResolution);
 }
+
+void CRTRenderer::renderAnimation(const std::string& outputFileName)
+{
+
+	CRTCamera camera = scene.getCamera();
+	const CRTVector& sceneCenter = scene.computeSceneCenter();
+	camera.rotateAround(60.f, sceneCenter, CameraRotation::PAN);
+	scene.setCamera(std::move(camera));
+
+	for (int i = 2; i < FRAMES_PER_ANIMATION; i++)
+	{
+		CRTCamera camera = scene.getCamera();
+		const CRTVector& sceneCenter = scene.computeSceneCenter();
+		camera.rotateAround(30.f, sceneCenter, CameraRotation::PAN);
+		scene.setCamera(std::move(camera));
+
+		std::string currentFileName = outputFileName + std::to_string(i) + ".ppm";
+		renderScene(currentFileName);
+	}
+}

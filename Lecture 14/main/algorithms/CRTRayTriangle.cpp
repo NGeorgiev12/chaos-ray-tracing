@@ -276,12 +276,12 @@ bool CRTRayTriangle::intersectSingleTriangle(
 	result.materialIndex = materialIndex;
 
 	const auto& materials = scene.getMaterials();
-	const auto& textures = scene.getTextures();
+	/*const auto& textures = scene.getTextures();
 	const auto& albedoName = materials[materialIndex].getTextureName();
 
 	if (!textures.empty()) {
 		result.textureIndex = scene.getTextureIndex(albedoName);
-	}
+	}*/
 
 	calculateIntersectionData(result, mesh, materials);
 

@@ -116,3 +116,38 @@ void CRTCamera::rotateRoll(float radians)
 {
 	rotationMatrix = rotationMatrix * CRTMatrix::rotationZ(radians);
 }
+
+void CRTCamera::rotateAround(float degrees, const CRTVector& target, CameraRotation rotationType)
+{
+	float radians = degreesToRadians(degrees);
+
+	CRTMatrix rotation;
+	switch (rotationType)
+	{
+	case CameraRotation::PAN:
+	{
+		rotation = CRTMatrix::rotationY(radians);
+		rotatePan(radians);
+		break;
+	}
+	case CameraRotation::TILT:
+	{
+		rotation = CRTMatrix::rotationX(radians);
+		rotateTilt(radians);
+		break;
+	}
+	case CameraRotation::ROLL:
+	{
+		rotation = CRTMatrix::rotationZ(radians);
+		rotateRoll(radians);
+		break;
+	}
+	default:
+		assert(false);
+	}
+
+	CRTVector offset = position - target;
+	CRTVector rotated = offset * rotation;
+	position = target + rotated;
+}
+

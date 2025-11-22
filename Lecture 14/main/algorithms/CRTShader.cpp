@@ -87,6 +87,7 @@ CRTVector CRTShader::shadeReflection(const CRTRay& ray, const CRTIntersectionRes
 	const CRTScene& scene, TraceType traceType)
 {
 	const CRTVector& normal = data.hitNormal;
+	CRTVector albedo = CRTAlbedo::albedo(scene, data);
 
 	CRTVector rayDir = ray.getRayDirection();
 	rayDir.normalize();
@@ -97,7 +98,6 @@ CRTVector CRTShader::shadeReflection(const CRTRay& ray, const CRTIntersectionRes
 
 	CRTVector finalColor = shade(reflectionRay, reflectionResult, scene, traceType);
 
-	const CRTVector& albedo = CRTAlbedo::albedo(scene, data);
 	finalColor = CRTVector::multiplyColors(finalColor, albedo);
 
 	return finalColor;

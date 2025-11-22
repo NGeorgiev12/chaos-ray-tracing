@@ -119,3 +119,25 @@ void CRTScene::computeAllTriangles()
 		}
 	}
 }
+
+CRTVector CRTScene::computeSceneCenter() const
+{
+	CRTVector minCorner(FLT_MAX, FLT_MAX, FLT_MAX);
+	CRTVector maxCorner(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+
+	for (const auto& object : objects)
+	{
+		for (const auto& vertex : object.getVertices())
+		{
+			minCorner.setComponent(0, std::min(minCorner.getComponent(0), vertex.getComponent(0)));
+			minCorner.setComponent(1, std::min(minCorner.getComponent(1), vertex.getComponent(1)));
+			minCorner.setComponent(2, std::min(minCorner.getComponent(2), vertex.getComponent(2)));
+
+			maxCorner.setComponent(0, std::max(maxCorner.getComponent(0), vertex.getComponent(0)));
+			maxCorner.setComponent(1, std::max(maxCorner.getComponent(1), vertex.getComponent(1)));
+			maxCorner.setComponent(2, std::max(maxCorner.getComponent(2), vertex.getComponent(2)));
+		}
+	}
+
+	return (minCorner + maxCorner) * 0.5f;
+}

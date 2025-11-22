@@ -26,6 +26,8 @@ namespace Helper
 	constexpr float IOR_AIR = 1.0f;
 	constexpr int AXIS_COUNT = 3;
 	constexpr int MAX_BOX_TRIANGLE_COUNT = 4;
+	constexpr int DEFAULT_BUCKETS_COUNT = 24;
+	constexpr int FRAMES_PER_ANIMATION = 12;
 
 	const char CRT_SCENE_SETTINGS[] = "settings";
 	const char CRT_SCENE_BACKGROUND_COLOR[] = "background_color";

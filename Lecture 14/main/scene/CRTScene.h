@@ -46,6 +46,7 @@ public:
 
 	int getTextureIndex(const std::string& textureName) const;
 	const std::vector<MeshTriangleRef>& getTriangleMap() const;
+	CRTVector computeSceneCenter() const;
 
 private:
 
